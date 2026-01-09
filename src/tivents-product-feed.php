@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         TIVENTS Products Feed
  * description:         Crawl products form tivents
- * Version:             1.6.7
+ * Version:             1.6.8
  *
  * Author:              tivents
  * Author URI:          https://tivents.info/
@@ -23,14 +23,15 @@ require_once 'views/class-tivents-calendar-view.php';
 require_once 'views/class-tivents-list-view.php';
 require_once 'views/class-tivents-grid-view.php';
 require_once 'views/class-tivents-sponsorship-view.php';
+require_once 'views/class-tivents-product-detail-view.php';
 
 /*** Add controllers */
 require_once 'controllers/class-tivents-product-controller.php';
 require_once 'controllers/class-tivents-settings-controller.php';
 require_once 'controllers/class-tivents-registration-controller.php';
+require_once 'controllers/class-tivents-product-detail-controller.php';
 
-define( 'TIVENTPRO_CURRENT_VERSION', '1.6.7' );
-
+define( 'TIVENTPRO_CURRENT_VERSION', '1.6.8' );
 
 function register_styles() {
     if(!wp_style_is('tiv-plugin-style', 'enqueued' )) {
@@ -48,11 +49,6 @@ function register_fullcalendar()
     if(!wp_script_is( 'fullcalendar_core_script', 'enqueued' )) {
         wp_register_script( 'fullcalendar_core_script', plugins_url( 'plugins/fullcalendar/main.min.js', __FILE__ ) );
         wp_enqueue_script('fullcalendar_core_script');
-    }
-
-    if(!wp_script_is( 'fullcalendar_locale_script', 'enqueued' )) {
-        wp_register_script( 'fullcalendar_locale_script', plugins_url( 'plugins/fullcalendar/locales-all.min.js', __FILE__ ) );
-        wp_enqueue_script('fullcalendar_locale_script');
     }
 
     if(!wp_style_is('tiv-calender-style', 'enqueued' )) {
@@ -89,6 +85,7 @@ add_action( 'admin_init', 'tivents_products_feed_register_settings' );
 
 add_shortcode( 'tivents_products', 'tivents_products_feed_show' );
 add_shortcode( 'tivents_sponsorships', 'tivents_sponsorships_feed_show' );
+add_shortcode( 'tivents_product_detail', array('Tivents_Product_Detail_Controller', 'tivents_product_detail_shortcode'));
 
 function tivents_products_feed_setup_menu() {
     add_menu_page(
